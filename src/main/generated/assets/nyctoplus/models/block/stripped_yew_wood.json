@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "nyctoplus:block/stripped_yew_log",
+    "side": "nyctoplus:block/stripped_yew_log"
+  }
+}

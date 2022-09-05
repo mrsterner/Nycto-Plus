@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "nyctoplus:block/yew_slab"
+    },
+    "type=double": {
+      "model": "nyctoplus:block/yew_planks"
+    },
+    "type=top": {
+      "model": "nyctoplus:block/yew_slab_top"
+    }
+  }
+}

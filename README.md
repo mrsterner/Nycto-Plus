@@ -4,10 +4,6 @@ The official Quilt template Mod. You can use it as a template for your own mods!
 
 ## Usage
 
-In order to use this mod as a template:
-
-1. Create a new repository from this template with `Use this template`
-2. Clone the recently-created repo on your PC
 3. Make the necessary changes in order to make it yours:
     - Update `gradle.properties` in order to use your Maven group and mod ID
         - If you don't know which Maven group to use, and you are planning to host the mod's source code on GitHub, use `io.github.<Your_Username_Here>`

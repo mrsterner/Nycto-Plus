@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "nyctoplus:block/yew_log_horizontal_cut",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "nyctoplus:block/yew_log_cut"
+    },
+    "axis=z": {
+      "model": "nyctoplus:block/yew_log_horizontal_cut",
+      "x": 90
+    }
+  }
+}

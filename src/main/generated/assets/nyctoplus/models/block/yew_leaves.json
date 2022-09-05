@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "nyctoplus:block/yew_leaves"
+  }
+}

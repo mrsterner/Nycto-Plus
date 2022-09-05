@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.mrsterner.nyctoplus.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockEntityTypeMixin",
+    "BlocksMixin",
+    "access.SensorTypeAccessor"
+  ],
+  "client": [
+    "SignBlockEntityRendererMixin",
+    "SignEditScreenMixin",
+    "access.RenderLayerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}
