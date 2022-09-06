@@ -21,6 +21,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -168,7 +169,7 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
         }else {
             if (this.isSprinting()) {
                 builder.addAnimation("animation.leshon.quad.runningDev", true);
-                if(this.handSwinging){
+                if(this.handSwinging || this.isAttacking()){
                     builder.addAnimation("animation.leshon.quad.attack", false);
                 }
             }else if(this.forwardSpeed < 0){
@@ -184,9 +185,18 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
         return PlayState.CONTINUE;
     }
 
+    private <E extends IAnimatable> PlayState attack(AnimationEvent<E> animationEvent) {
+        if (this.handSwinging) {
+            animationEvent.getController().setAnimation(new AnimationBuilder().addAnimation("animation.leshon.standing.attack", true));
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "Movement", 2, this::movement));
+        animationData.addAnimationController(new AnimationController<>(this, "Attack", 2, this::attack));
     }
 
     @Override

@@ -4,9 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import dev.mrsterner.nyctoplus.common.ai.task.LeshonMeleeAttackTask;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
-import dev.mrsterner.nyctoplus.common.registry.NPEntityTypes;
 import dev.mrsterner.nyctoplus.common.registry.NPSensorType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,16 +16,7 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.*;
-import net.minecraft.entity.mob.warden.WardenBrain;
-import net.minecraft.entity.mob.warden.WardenEntity;
-import net.minecraft.entity.passive.FrogBrain;
-import net.minecraft.entity.passive.FrogEntity;
-import net.minecraft.entity.passive.GoatBrain;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tag.EntityTypeTags;
 import net.minecraft.util.dynamic.GlobalPos;
-import net.minecraft.util.random.RandomGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -114,7 +103,7 @@ public class LeshonBrain {
                         new RangedApproachTask(1.0F),
                         new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget),
                         new FollowMobTask(mob -> isTarget(leshonEntity, mob), (float)leshonEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
-                        new LeshonMeleeAttackTask(18)
+                        new MeleeAttackTask(18)
                 ),
                 MemoryModuleType.ATTACK_TARGET
         );
