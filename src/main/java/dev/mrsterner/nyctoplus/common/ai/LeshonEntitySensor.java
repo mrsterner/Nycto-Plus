@@ -26,13 +26,7 @@ public class LeshonEntitySensor extends NearestLivingEntitiesSensor<LeshonEntity
 
     protected void sense(ServerWorld serverWorld, LeshonEntity leshonEntity) {
         super.sense(serverWorld, leshonEntity);
-        getClosestEntity(leshonEntity, (livingEntity) -> {
-            return livingEntity.getType() == EntityType.PLAYER;
-        }).or(() -> {
-            return getClosestEntity(leshonEntity, (livingEntity) -> {
-                return livingEntity.getType() != EntityType.PLAYER;
-            });
-        }).ifPresentOrElse((livingEntity) -> {
+        getClosestEntity(leshonEntity, (livingEntity) -> livingEntity.getType() == EntityType.PLAYER).or(() -> getClosestEntity(leshonEntity, (livingEntity) -> livingEntity.getType() != EntityType.PLAYER)).ifPresentOrElse((livingEntity) -> {
             leshonEntity.getBrain().remember(MemoryModuleType.NEAREST_ATTACKABLE, livingEntity);
         }, () -> {
             leshonEntity.getBrain().forget(MemoryModuleType.NEAREST_ATTACKABLE);
@@ -40,9 +34,13 @@ public class LeshonEntitySensor extends NearestLivingEntitiesSensor<LeshonEntity
     }
 
     private static Optional<LivingEntity> getClosestEntity(LeshonEntity leshonEntity, Predicate<LivingEntity> entityPredicate) {
-        Stream<LivingEntity> var10000 = leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.MOBS).stream().flatMap(Collection::stream);
-        Objects.requireNonNull(leshonEntity);
-        return var10000.filter(leshonEntity::isEnemy).filter(entityPredicate).findFirst();
+        return leshonEntity.getBrain()
+                .getOptionalMemory(MemoryModuleType.MOBS)
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(leshonEntity::isEnemy)
+                .filter(entityPredicate)
+                .findFirst();
     }
 
     protected int horizontalRadius() {
