@@ -30,6 +30,7 @@ public class NPModelProvider extends FabricModelProvider {
 
         registerSlab(generator, NPObjects.YEW_SLAB, NPObjects.YEW_PLANKS);
 
+
     }
 
     public static void registerSlab(BlockStateModelGenerator blockStateModelGenerator, Block slab, Block source) {
@@ -42,6 +43,7 @@ public class NPModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(NPObjects.YEW_SIGN_ITEM, Models.GENERATED);
+        itemModelGenerator.register(NPObjects.YEW_BERRIES, Models.GENERATED);
     }
 
 }

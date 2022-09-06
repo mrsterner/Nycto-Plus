@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-06T14:02:20.511079641	Models
+// 1.19.2	2022-09-06T20:21:38.939515876	Models
 d084c0d2c31bd5a4d3cc7b67cea1e13dc508a50d assets/nyctoplus/models/item/yew_pressure_plate.json
 37a1493a2311f4d39f265ae5bfc902fdcfb952b5 assets/nyctoplus/models/block/yew_fence_post.json
 8ecddf99c9881d1782a44f7c9c20573148388697 assets/nyctoplus/models/block/yew_stairs_inner.json
@@ -32,6 +32,7 @@ fd4e98a507c82ae365aad54a3630fc6e44b54133 assets/nyctoplus/models/block/yew_door_
 97f58fb934e6d2c50790fee21026761edf4ecfb9 assets/nyctoplus/models/block/yew_door_bottom_left.json
 51a4ffd7b3b446c76c1b8fefc3c78c92affd4e49 assets/nyctoplus/models/block/yew_slab_top.json
 bf73801a88c8948db35b341727dd6b300d488668 assets/nyctoplus/models/item/yew_fence.json
+6c1c628a690b16f4367c16e7bb71623bf5bef1d1 assets/nyctoplus/models/item/yew_berries.json
 69bf5a16306ec8ca7db5c135167f91badbc3f04d assets/nyctoplus/blockstates/yew_fence.json
 bd610712bc7fb4b3142ce6a8fac983601abc3a57 assets/nyctoplus/models/item/yew_stairs.json
 6345c98127827cbc6eb67a1f4acd4af90dc2d7af assets/nyctoplus/models/item/yew_sign.json

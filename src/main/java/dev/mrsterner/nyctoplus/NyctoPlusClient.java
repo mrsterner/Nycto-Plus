@@ -16,8 +16,8 @@ public class NyctoPlusClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient(ModContainer mod) {
-		NPSpriteIdentifierRegistry.INSTANCE.addIdentifier(new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, NPObjects.YEW_SIGN.getTexture()));
-		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),NPObjects.YEW_SAPLING, NPObjects.YEW_DOOR, NPObjects.YEW_TRAPDOOR, NPObjects.YEW_CUT_LOG);
+		NPSpriteIdentifierRegistry.INSTANCE.addIdentifier(new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, NPObjects.YEW_SIGN_TEXTURE));
+		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),NPObjects.YEW_SAPLING, NPObjects.YEW_DOOR, NPObjects.YEW_TRAPDOOR, NPObjects.CLAWED_YEW_BLOCK);
 
 		EntityRendererRegistry.register(NPEntityTypes.LESHON, LeshonEntityRenderer::new);
 	}

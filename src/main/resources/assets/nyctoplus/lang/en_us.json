@@ -1,0 +1,25 @@
+{
+  "itemGroup.nyctoplus.items" : "Nycto+",
+
+  "item.nyctoplus.yew_berries" : "Yew Berries",
+
+  "block.nyctoplus.stripped_yew_log" : "Stripped Yew Log",
+  "block.nyctoplus.stripped_yew_wood" : "Stripped Yew Wood",
+  "block.nyctoplus.yew_log" : "Yew Log",
+  "block.nyctoplus.yew_wood" : "Yew Wood",
+  "block.nyctoplus.clawed_yew_log" : "Clawed Yew Log",
+  "block.nyctoplus.yew_planks" : "Yew Planks",
+  "block.nyctoplus.yew_stairs" : "Yew Stairs",
+  "block.nyctoplus.yew_slab" : "Yew Slab",
+  "block.nyctoplus.yew_fence" : "Yew Fence",
+  "block.nyctoplus.yew_fence_gate" : "Yew Fence Gate",
+  "block.nyctoplus.yew_leaves" : "Yew Leaves",
+  "block.nyctoplus.yew_sapling" : "Yew Sapling",
+  "block.nyctoplus.yew_pressure_plate" : "Yew Pressure Plate",
+  "block.nyctoplus.yew_button" : "Yew Button",
+  "block.nyctoplus.yew_trapdoor" : "Yew Trapdoor",
+  "block.nyctoplus.yew_door" : "Yew Door",
+  "block.nyctoplus.yew_sign" : "Yew Sign",
+
+  "entity.nyctoplus.leshon" : "Leshon"
+}

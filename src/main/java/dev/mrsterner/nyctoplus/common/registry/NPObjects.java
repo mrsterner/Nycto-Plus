@@ -25,8 +25,7 @@ public class NPObjects {
 
     //ITEMS
     public static final Item YEW_BERRIES = register("yew_berries", new Item(gen().food(new FoodComponent.Builder().alwaysEdible().hunger(2).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 8,1), 1).build())));
-    public static final Item YEW_DOOR_ITEM = register("yew_door", new TallBlockItem(NPObjects.YEW_DOOR, gen()));
-    public static final Item YEW_SIGN_ITEM = register("yew_sign", new SignItem(gen().maxCount(16), NPObjects.YEW_SIGN, NPObjects.YEW_WALL_SIGN));
+
 
     //BLOCKS
 
@@ -34,7 +33,7 @@ public class NPObjects {
     public static final Block STRIPPED_YEW_LOG = register("stripped_yew_log", new PillarBlock(copyOf(Blocks.OAK_LOG)), true);
     public static final Block STRIPPED_YEW_WOOD = register("stripped_yew_wood", new PillarBlock(copyOf(STRIPPED_YEW_LOG)), true);
     public static final Block YEW_LOG = register("yew_log", new YewLogBlock(() -> STRIPPED_YEW_LOG, MapColor.BROWN, copyOf(STRIPPED_YEW_LOG)), true);
-    public static final Block YEW_CUT_LOG = register("yew_log_cut", new YewCutLogBlock(() -> STRIPPED_YEW_LOG, MapColor.BROWN, copyOf(STRIPPED_YEW_LOG)), true);
+    public static final Block CLAWED_YEW_BLOCK = register("clawed_yew_log", new ClawedYewLog(() -> STRIPPED_YEW_LOG, MapColor.BROWN, copyOf(STRIPPED_YEW_LOG)), true);
     public static final Block YEW_WOOD = register("yew_wood", new YewLogBlock(() -> STRIPPED_YEW_WOOD, MapColor.BROWN, copyOf(STRIPPED_YEW_LOG)), true);
     public static final Block YEW_PLANKS = register("yew_planks", new Block(copyOf(Blocks.OAK_PLANKS)), true);
     public static final Block YEW_STAIRS = register("yew_stairs", new YewStairsBlock(YEW_PLANKS, copyOf(Blocks.OAK_STAIRS)), true);
@@ -50,6 +49,8 @@ public class NPObjects {
     public static final Block YEW_DOOR = register("yew_door", new YewDoorBlock(copyOf(Blocks.OAK_DOOR)), false);
     public static final Block YEW_SIGN = register("yew_sign", new YewSignBlock(YEW_SIGN_TEXTURE, copyOf(Blocks.OAK_SIGN)), false);
     public static final Block YEW_WALL_SIGN = register("yew_wall_sign", new YewWallSignBlock(YEW_SIGN_TEXTURE, copyOf(Blocks.OAK_WALL_SIGN)), false);
+    public static final Item YEW_DOOR_ITEM = register("yew_door", new TallBlockItem(YEW_DOOR, gen()));
+    public static final Item YEW_SIGN_ITEM = register("yew_sign", new SignItem(gen().maxCount(16), YEW_SIGN, YEW_WALL_SIGN));
 
 
 

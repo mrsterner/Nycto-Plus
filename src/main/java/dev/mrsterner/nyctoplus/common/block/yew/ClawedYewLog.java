@@ -1,6 +1,6 @@
 package dev.mrsterner.nyctoplus.common.block.yew;
 
-import dev.mrsterner.nyctoplus.common.block.blockentity.YewLogBlockEntity;
+import dev.mrsterner.nyctoplus.common.block.blockentity.ClawedYewBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class YewCutLogBlock extends PillarBlock implements BlockEntityProvider {
+public class ClawedYewLog extends PillarBlock implements BlockEntityProvider {
     private final Supplier<Block> stripped;
 
-    public YewCutLogBlock(Supplier<Block> stripped, MapColor top, Settings settings) {
+    public ClawedYewLog(Supplier<Block> stripped, MapColor top, Settings settings) {
         super(settings);
         this.stripped = stripped;
     }
@@ -22,12 +22,12 @@ public class YewCutLogBlock extends PillarBlock implements BlockEntityProvider {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (tickerWorld, pos, tickerState, blockEntity) -> YewLogBlockEntity.tick(tickerWorld, pos, tickerState, (YewLogBlockEntity) blockEntity);
+        return (tickerWorld, pos, tickerState, blockEntity) -> ClawedYewBlockEntity.tick(tickerWorld, pos, tickerState, (ClawedYewBlockEntity) blockEntity);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new YewLogBlockEntity(pos, state);
+        return new ClawedYewBlockEntity(pos, state);
     }
 }
