@@ -1,7 +1,5 @@
 package dev.mrsterner.nyctoplus.common.registry;
 
-import dev.mrsterner.nyctoplus.NyctoPlus;
-import dev.mrsterner.nyctoplus.common.block.blockentity.YewChestBlockEntity;
 import dev.mrsterner.nyctoplus.common.block.blockentity.YewLogBlockEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.block.entity.BlockEntity;

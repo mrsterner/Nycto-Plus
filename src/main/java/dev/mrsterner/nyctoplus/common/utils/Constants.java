@@ -1,6 +1,5 @@
 package dev.mrsterner.nyctoplus.common.utils;
 
-import dev.mrsterner.nyctoplus.NyctoPlus;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;

@@ -30,6 +30,6 @@ public class NPRenderLayers extends RenderLayer {
                 .lightmap(RenderLayer.ENABLE_LIGHTMAP)
                 .overlay(RenderLayer.ENABLE_OVERLAY_COLOR)
                 .build(true);
-        return makeLayer(Constants.MODID + "hamon", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, VertexFormat.DrawMode.QUADS, 256, true, true, glState);
+        return makeLayer(Constants.MODID + "dummy", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, VertexFormat.DrawMode.QUADS, 256, true, true, glState);
     });
 }

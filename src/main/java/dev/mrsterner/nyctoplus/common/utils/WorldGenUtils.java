@@ -15,7 +15,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.StructureWorldAccess;
 
 import java.util.Optional;
-import java.util.random.RandomGenerator;
 
 public class WorldGenUtils {
     /** This method places and nbt structure at a given origin

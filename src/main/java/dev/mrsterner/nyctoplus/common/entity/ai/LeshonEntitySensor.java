@@ -1,4 +1,4 @@
-package dev.mrsterner.nyctoplus.common.ai;
+package dev.mrsterner.nyctoplus.common.entity.ai;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -7,12 +7,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.NearestLivingEntitiesSensor;
-import net.minecraft.entity.mob.warden.WardenEntity;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class LeshonEntitySensor extends NearestLivingEntitiesSensor<LeshonEntity> {
 

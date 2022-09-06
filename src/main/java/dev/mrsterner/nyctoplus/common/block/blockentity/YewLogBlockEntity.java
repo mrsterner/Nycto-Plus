@@ -3,7 +3,6 @@ package dev.mrsterner.nyctoplus.common.block.blockentity;
 import dev.mrsterner.nyctoplus.common.registry.NPBlockEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

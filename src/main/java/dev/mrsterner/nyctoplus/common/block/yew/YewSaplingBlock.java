@@ -2,21 +2,17 @@ package dev.mrsterner.nyctoplus.common.block.yew;
 
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.common.utils.WorldGenUtils;
-import net.minecraft.block.AbstractBlock;
 
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class YewSaplingBlock extends PlantBlock implements Fertilizable {
     public static final IntProperty STAGE = Properties.STAGE;

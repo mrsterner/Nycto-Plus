@@ -10,10 +10,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.util.SpriteIdentifier;
 import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class NyctoPlusClient implements ClientModInitializer {
 

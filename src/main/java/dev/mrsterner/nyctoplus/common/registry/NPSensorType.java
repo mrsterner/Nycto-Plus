@@ -1,6 +1,6 @@
 package dev.mrsterner.nyctoplus.common.registry;
 
-import dev.mrsterner.nyctoplus.common.ai.LeshonEntitySensor;
+import dev.mrsterner.nyctoplus.common.entity.ai.LeshonEntitySensor;
 import dev.mrsterner.nyctoplus.mixin.access.SensorTypeAccessor;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;

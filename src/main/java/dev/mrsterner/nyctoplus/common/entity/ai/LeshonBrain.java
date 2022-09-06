@@ -1,4 +1,4 @@
-package dev.mrsterner.nyctoplus.common.ai;
+package dev.mrsterner.nyctoplus.common.entity.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -49,7 +49,6 @@ public class LeshonBrain {
 
     public LeshonBrain() {
     }
-
 
     public static Brain<?> create(LeshonEntity leshonEntity, Dynamic<?> dynamic) {
         Brain.Profile<LeshonEntity> profile = Brain.createProfile(MEMORIES, SENSORS);

@@ -3,7 +3,6 @@ package dev.mrsterner.nyctoplus.common.world.feature;
 import com.mojang.serialization.Codec;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.common.utils.WorldGenUtils;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;

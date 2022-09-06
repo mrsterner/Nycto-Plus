@@ -1,7 +1,7 @@
 package dev.mrsterner.nyctoplus.common.entity;
 
 import com.mojang.serialization.Dynamic;
-import dev.mrsterner.nyctoplus.common.ai.LeshonBrain;
+import dev.mrsterner.nyctoplus.common.entity.ai.LeshonBrain;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -15,13 +15,10 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PiglinBruteEntity;
-import net.minecraft.entity.mob.warden.WardenBrain;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
