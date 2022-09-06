@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import dev.mrsterner.nyctoplus.common.ai.task.LeshonMeleeAttackTask;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
 import dev.mrsterner.nyctoplus.common.registry.NPEntityTypes;
 import dev.mrsterner.nyctoplus.common.registry.NPSensorType;
@@ -12,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.VisibleLivingEntitiesCache;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
@@ -21,6 +23,7 @@ import net.minecraft.entity.mob.warden.WardenBrain;
 import net.minecraft.entity.mob.warden.WardenEntity;
 import net.minecraft.entity.passive.FrogBrain;
 import net.minecraft.entity.passive.FrogEntity;
+import net.minecraft.entity.passive.GoatBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tag.EntityTypeTags;
 import net.minecraft.util.dynamic.GlobalPos;
@@ -51,7 +54,8 @@ public class LeshonBrain {
             MemoryModuleType.ATTACK_TARGET,
             MemoryModuleType.ATTACK_COOLING_DOWN,
             MemoryModuleType.NEAREST_ATTACKABLE,
-            MemoryModuleType.HOME
+            MemoryModuleType.HOME,
+            MemoryModuleType.PACIFIED
     );
 
     public LeshonBrain() {
@@ -79,7 +83,7 @@ public class LeshonBrain {
                         new LookAroundTask(45, 90),
                         new WanderAroundTask(),
                         new ForgetAngryAtTargetTask<>(),
-                        new UpdateAttackTargetTask<>(LeshonBrain::canAttack, leshon -> leshon.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE))
+                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)
                 )
         );
     }
@@ -88,34 +92,29 @@ public class LeshonBrain {
         brain.setTaskList(
                 Activity.IDLE,
                 ImmutableList.of(
-                        Pair.of(0, new RandomTask<>(
+                        Pair.of(0, new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)),
+                        Pair.of(1, new RandomTask<>(
                                 ImmutableList.of(
                                         Pair.of(new StrollTask(0.6F), 2),
                                         Pair.of(new ConditionalTask<>(LeshonBrain::canWander, new GoTowardsLookTarget(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
-                        Pair.of(1, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
-                        Pair.of(2, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE)),
-                        Pair.of(3, new UpdateAttackTargetTask<>(LeshonBrain::canAttack, leshon -> leshon.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE)))
+                        Pair.of(2, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
+                        Pair.of(3, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
+
                 )
         );
     }
 
-    private static boolean canAttack(LeshonEntity leshonEntity) {
-        if(leshonEntity.getTarget() != null){
-            return leshonEntity.getTarget().getType() == EntityType.PLAYER;
-        } else {
-            return false;
-        }
-    }
     private static void addFightActivities(LeshonEntity leshonEntity, Brain<LeshonEntity> brain) {
         brain.setTaskList(
                 Activity.FIGHT,
                 10,
                 ImmutableList.of(
+                        new RangedApproachTask(1.0F),
+                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget),
                         new FollowMobTask(mob -> isTarget(leshonEntity, mob), (float)leshonEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
-                        new RangedApproachTask(1.2F),
-                        new MeleeAttackTask(18)
+                        new LeshonMeleeAttackTask(18)
                 ),
                 MemoryModuleType.ATTACK_TARGET
         );
@@ -126,7 +125,17 @@ public class LeshonBrain {
         leshonEntity.setAttacking(leshonEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET));
     }
 
-
+    private static Optional<? extends LivingEntity> getAttackTarget(LeshonEntity leshonEntity) {
+        Brain<LeshonEntity> brain = leshonEntity.getBrain();
+        if (brain.hasMemoryModule(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER)) {
+            return brain.getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
+        }
+        if (brain.hasMemoryModule(MemoryModuleType.VISIBLE_MOBS)) {
+            VisibleLivingEntitiesCache visibleLivingEntitiesCache = leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).get();
+            return visibleLivingEntitiesCache.method_38975(entity -> entity.getType() == EntityType.PLAYER && !entity.isSubmergedInWater());
+        }
+        return Optional.empty();
+    }
 
     private static boolean isTarget(LeshonEntity leshonEntity, LivingEntity entity) {
         return leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).filter(targetedEntity -> targetedEntity == entity).isPresent();
@@ -139,23 +148,5 @@ public class LeshonBrain {
     public static void setCurrentPosAsHome(LeshonEntity leshonEntity) {
         GlobalPos globalPos = GlobalPos.create(leshonEntity.world.getRegistryKey(), leshonEntity.getBlockPos());
         leshonEntity.getBrain().remember(MemoryModuleType.HOME, globalPos);
-    }
-
-    private static Optional<? extends LivingEntity> findRememberedEntityInRange(LeshonEntity leshonEntity, MemoryModuleType<? extends LivingEntity> memoryType) {
-        return leshonEntity.getBrain().getOptionalMemory(memoryType).filter(entity -> entity.isInRange(leshonEntity, 12.0));
-    }
-
-    private static Optional<? extends LivingEntity> findNearestAttackableTarget(LeshonEntity leshonEntity) {
-        Optional<LivingEntity> optional = LookTargetUtil.getEntity(leshonEntity, MemoryModuleType.ANGRY_AT);
-        if (optional.isPresent() && Sensor.testAttackableTargetPredicateIgnoreVisibility(leshonEntity, optional.get())) {
-            return optional;
-        } else {
-            Optional<? extends LivingEntity> optional2 = findRememberedEntityInRange(leshonEntity, MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
-            return optional2.isPresent() ? optional2 : leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_NEMESIS);
-        }
-    }
-
-    private static boolean isNearestAttackableTarget(LeshonEntity leshonEntity, LivingEntity entity) {
-        return findNearestAttackableTarget(leshonEntity).filter(entity2 -> entity2 == entity).isPresent();
     }
 }

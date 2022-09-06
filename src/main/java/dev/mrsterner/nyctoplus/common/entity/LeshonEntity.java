@@ -11,6 +11,9 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.ProjectileDamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PiglinBruteEntity;
 import net.minecraft.entity.mob.warden.WardenBrain;
@@ -33,6 +36,8 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class LeshonEntity extends HostileEntity implements IAnimatable {
+    protected static final TrackedData<Boolean> ATTACKING = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
     private final AnimationFactory factory = new AnimationFactory(this);
     public Vec3d motionCalc = new Vec3d(0,0,0);
 
@@ -70,6 +75,12 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
         this.world.getProfiler().pop();
         LeshonBrain.updateActivities(this);
         super.mobTick();
+    }
+
+    @Override
+    protected void initDataTracker() {
+        this.dataTracker.startTracking(ATTACKING, true);
+        super.initDataTracker();
     }
 
     @Override
@@ -121,6 +132,14 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
                     && this.world.getWorldBorder().contains(livingEntity.getBoundingBox());
         }
         return false;
+    }
+
+    public boolean isAttacking() {
+        return dataTracker.get(ATTACKING);
+    }
+
+    public void setAttacking(boolean attacking) {
+        dataTracker.set(ATTACKING, attacking);
     }
 
     private <E extends IAnimatable> PlayState movement(AnimationEvent<E> animationEvent) {
