@@ -114,16 +114,12 @@ public class LeshonBrain {
 
     public static void onGuardedBlockInteracted(PlayerEntity player, boolean blockOpen) {
         List<LeshonEntity> list = player.world.getNonSpectatingEntities(LeshonEntity.class, player.getBoundingBox().expand(16.0));
-        list.stream().filter(LeshonBrain::hasIdleActivity).filter(leshon -> !blockOpen || LookTargetUtil.isVisibleInMemory(leshon, player)).forEach(leshon -> {
+        list.stream().filter(leshonEntity -> leshonEntity.getBrain().hasActivity(Activity.IDLE)).filter(leshon -> !blockOpen || LookTargetUtil.isVisibleInMemory(leshon, player)).forEach(leshon -> {
             if (Sensor.testAttackableTargetPredicateIgnoreVisibility(leshon, player)) {
                 leshon.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
                 leshon.getBrain().remember(MemoryModuleType.ANGRY_AT, player.getUuid(), 600L);
             }
         });
-    }
-
-    protected static boolean hasIdleActivity(LeshonEntity leshonEntity) {
-        return leshonEntity.getBrain().hasActivity(Activity.IDLE);
     }
 
     private static Optional<? extends LivingEntity> getAttackTarget(LeshonEntity leshonEntity) {

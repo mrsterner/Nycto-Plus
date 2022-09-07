@@ -17,7 +17,7 @@ public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
 
     @Override
     public Identifier getTextureResource(LeshonEntity object) {
-        return Constants.id("textures/entity/leshon/leshon.png");
+        return Constants.id("textures/entity/leshon/leshon_0.png");
     }
 
     @Override

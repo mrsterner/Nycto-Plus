@@ -2,7 +2,7 @@ package dev.mrsterner.nyctoplus.common.entity;
 
 import com.mojang.serialization.Dynamic;
 import dev.mrsterner.nyctoplus.common.entity.ai.LeshonBrain;
-import dev.mrsterner.nyctoplus.common.registry.NPEntityTypes;
+import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -17,14 +17,12 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -35,7 +33,10 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class LeshonEntity extends HostileEntity implements IAnimatable {
-    protected static final TrackedData<Boolean> ATTACKING = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    /**
+     * Pose Flags Indexes: 0 - Quad, 1 - Sleep
+     */
+    private static final TrackedData<Byte> POSE_FLAGS = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BYTE);
 
     private final AnimationFactory factory = new AnimationFactory(this);
     public Vec3d motionCalc = new Vec3d(0,0,0);
@@ -78,8 +79,20 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
 
     @Override
     protected void initDataTracker() {
-        this.dataTracker.startTracking(ATTACKING, true);
+        dataTracker.startTracking(POSE_FLAGS, (byte) 0b0000_0000);
         super.initDataTracker();
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putByte(Constants.NBT.POSE_FLAGS, dataTracker.get(POSE_FLAGS));
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        dataTracker.set(POSE_FLAGS, nbt.getByte(Constants.NBT.POSE_FLAGS));
     }
 
     @Override
@@ -119,27 +132,41 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
         UpdateAttackTargetTask.updateAttackTarget(this, entity);
     }
 
-    @Contract("null->false")
-    public boolean isEnemy(@Nullable Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
-            return this.world == entity.world && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity)
-                    && !this.isTeammate(entity)
-                    && livingEntity.getType() != EntityType.ARMOR_STAND
-                    && livingEntity.getType() != NPEntityTypes.LESHON
-                    && !livingEntity.isInvulnerable()
-                    && !livingEntity.isDead()
-                    && this.world.getWorldBorder().contains(livingEntity.getBoundingBox());
+    protected void setPoseFlag(int index, boolean value) {
+        byte b = this.dataTracker.get(POSE_FLAGS);
+        if (value) {
+            this.dataTracker.set(POSE_FLAGS, (byte) (b | 1 << index));
+        } else {
+            this.dataTracker.set(POSE_FLAGS, (byte) (b & ~(1 << index)));
         }
-        return false;
     }
 
-    public boolean isAttacking() {
-        return dataTracker.get(ATTACKING);
+    protected boolean getPoseFlag(int index) {
+        return (this.dataTracker.get(POSE_FLAGS) & 1 << index) != 0;
     }
 
-    public void setAttacking(boolean attacking) {
-        dataTracker.set(ATTACKING, attacking);
+    @Override
+    public boolean isSleeping() {
+        return isLeshonSleeping();
     }
+
+    public boolean isLeshonSleeping() {
+        return getPoseFlag(1);
+    }
+
+    public void setLeshonSleeping(boolean sleeping) {
+        setPoseFlag(1, sleeping);
+    }
+
+
+    public boolean isLeshonQuad() {
+        return getPoseFlag(0);
+    }
+
+    public void setLeshonQuad(boolean quadruped) {
+        setPoseFlag(0, quadruped);
+    }
+
 
     private <E extends IAnimatable> PlayState movement(AnimationEvent<E> animationEvent) {
         AnimationBuilder builder = new AnimationBuilder();
@@ -165,10 +192,11 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
                 builder.addAnimation("animation.leshon.standing.sneak_idle", true);
             }
         }else {
-            if (this.isSprinting()) {
-                builder.addAnimation("animation.leshon.quad.runningDev", true);
-                if(this.handSwinging || this.isAttacking()){
-                    builder.addAnimation("animation.leshon.quad.attack", false);
+            if (this.isLeshonQuad()) {
+                if(this.isSprinting()){
+                    builder.addAnimation("animation.leshon.quad.runningDev", true);
+                }else{
+                    builder.addAnimation("animation.leshon.quad.idle", true);
                 }
             }else if(this.forwardSpeed < 0){
                 builder.addAnimation("animation.leshon.standing.walk_back", true);
