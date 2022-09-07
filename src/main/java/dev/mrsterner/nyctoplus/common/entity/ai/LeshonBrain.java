@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class LeshonBrain {
-    private static final int HOME_CLOSE_ENOUGH_DISTANCE = 2;
+    private static final int HOME_CLOSE_ENOUGH_DISTANCE = 4;
     private static final int HOME_TOO_FAR_DISTANCE = 100;
-    private static final int HOME_STROLL_AROUND_DISTANCE = 5;
+    private static final int HOME_STROLL_AROUND_DISTANCE = 6;
     private static final List<SensorType<? extends Sensor<? super LeshonEntity>>> SENSORS =List.of(
             SensorType.NEAREST_PLAYERS,
             SensorType.NEAREST_LIVING_ENTITIES,
@@ -34,7 +34,6 @@ public class LeshonBrain {
             MemoryModuleType.VISIBLE_MOBS,
             MemoryModuleType.NEAREST_VISIBLE_PLAYER,
             MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
-            MemoryModuleType.NEAREST_VISIBLE_NEMESIS,
             MemoryModuleType.LOOK_TARGET,
             MemoryModuleType.WALK_TARGET,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
@@ -84,7 +83,7 @@ public class LeshonBrain {
                         Pair.of(1, new RandomTask<>(
                                 ImmutableList.of(
                                         Pair.of(new StrollTask(0.6F), 2),
-                                        Pair.of(new ConditionalTask<>(LeshonBrain::canWander, new GoTowardsLookTarget(0.6F, 3)), 2),
+                                        Pair.of(new ConditionalTask<>(livingEntity -> true, new GoTowardsLookTarget(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
                         Pair.of(2, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
@@ -116,21 +115,16 @@ public class LeshonBrain {
     public static void onGuardedBlockInteracted(PlayerEntity player, boolean blockOpen) {
         List<LeshonEntity> list = player.world.getNonSpectatingEntities(LeshonEntity.class, player.getBoundingBox().expand(16.0));
         list.stream().filter(LeshonBrain::hasIdleActivity).filter(leshon -> !blockOpen || LookTargetUtil.isVisibleInMemory(leshon, player)).forEach(leshon -> {
-            becomeAngryWith(leshon, player);
+            if (Sensor.testAttackableTargetPredicateIgnoreVisibility(leshon, player)) {
+                leshon.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+                leshon.getBrain().remember(MemoryModuleType.ANGRY_AT, player.getUuid(), 600L);
+            }
         });
-    }
-
-    protected static void becomeAngryWith(LeshonEntity leshonEntity, LivingEntity target) {
-        if (Sensor.testAttackableTargetPredicateIgnoreVisibility(leshonEntity, target)) {
-            leshonEntity.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-            leshonEntity.getBrain().remember(MemoryModuleType.ANGRY_AT, target.getUuid(), 600L);
-        }
     }
 
     protected static boolean hasIdleActivity(LeshonEntity leshonEntity) {
         return leshonEntity.getBrain().hasActivity(Activity.IDLE);
     }
-
 
     private static Optional<? extends LivingEntity> getAttackTarget(LeshonEntity leshonEntity) {
         Brain<LeshonEntity> brain = leshonEntity.getBrain();
@@ -142,18 +136,16 @@ public class LeshonBrain {
             return brain.getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
         }
         if (brain.hasMemoryModule(MemoryModuleType.VISIBLE_MOBS)) {
-            VisibleLivingEntitiesCache visibleLivingEntitiesCache = leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).get();
-            return visibleLivingEntitiesCache.method_38975(entity -> entity.getType() == EntityType.PLAYER && !entity.isSubmergedInWater());
+            Optional<VisibleLivingEntitiesCache> visibleLivingEntitiesCache = leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.VISIBLE_MOBS);
+            if(visibleLivingEntitiesCache.isPresent()){
+                return visibleLivingEntitiesCache.get().method_38975(entity -> entity.getType() == EntityType.PLAYER && !entity.isSubmergedInWater());
+            }
         }
         return Optional.empty();
     }
 
     private static boolean isTarget(LeshonEntity leshonEntity, LivingEntity entity) {
         return leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).filter(targetedEntity -> targetedEntity == entity).isPresent();
-    }
-
-    private static boolean canWander(LivingEntity livingEntity) {
-        return true;
     }
 
     public static void setCurrentPosAsHome(LeshonEntity leshonEntity) {
