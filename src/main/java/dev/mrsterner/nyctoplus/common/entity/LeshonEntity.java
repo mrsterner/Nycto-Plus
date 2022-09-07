@@ -2,6 +2,7 @@ package dev.mrsterner.nyctoplus.common.entity;
 
 import com.mojang.serialization.Dynamic;
 import dev.mrsterner.nyctoplus.common.entity.ai.LeshonBrain;
+import dev.mrsterner.nyctoplus.common.registry.NPEntityTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -124,7 +125,7 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
             return this.world == entity.world && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(entity)
                     && !this.isTeammate(entity)
                     && livingEntity.getType() != EntityType.ARMOR_STAND
-                    && livingEntity.getType() != EntityType.WARDEN
+                    && livingEntity.getType() != NPEntityTypes.LESHON
                     && !livingEntity.isInvulnerable()
                     && !livingEntity.isDead()
                     && this.world.getWorldBorder().contains(livingEntity.getBoundingBox());

@@ -1,9 +1,12 @@
 package dev.mrsterner.nyctoplus.common.utils;
 
 import dev.mrsterner.nyctoplus.common.registry.NPObjects;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
 
 public class Constants {
@@ -11,7 +14,7 @@ public class Constants {
     public static final QuiltItemGroup NYCTO_PLUS_GROUP = QuiltItemGroup.builder(Constants.id("items")).icon(() -> new ItemStack(NPObjects.YEW_BERRIES)).build();
 
     public static class Tags {
-
+        public static final TagKey<Block> GUARDED_BY_LESHON = TagKey.of(Registry.BLOCK_KEY, new Identifier(MODID, "guarded_by_leshon"));
     }
 
     public static class NBT {

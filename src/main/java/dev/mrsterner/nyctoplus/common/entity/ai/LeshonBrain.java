@@ -16,7 +16,13 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.AbstractPiglinEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PiglinBrain;
+import net.minecraft.entity.mob.PiglinEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.world.GameRules;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +33,7 @@ public class LeshonBrain {
     private static final int HOME_STROLL_AROUND_DISTANCE = 5;
     private static final List<SensorType<? extends Sensor<? super LeshonEntity>>> SENSORS =List.of(
             SensorType.NEAREST_PLAYERS,
-            NPSensorType.LESHON_ENTITY_SENSOR,
+            SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.HURT_BY);
     private static final List<MemoryModuleType<?>> MEMORIES = List.of(
             MemoryModuleType.MOBS,
@@ -113,8 +119,31 @@ public class LeshonBrain {
         leshonEntity.setAttacking(leshonEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET));
     }
 
+    public static void onGuardedBlockInteracted(PlayerEntity player, boolean blockOpen) {
+        List<LeshonEntity> list = player.world.getNonSpectatingEntities(LeshonEntity.class, player.getBoundingBox().expand(16.0));
+        list.stream().filter(LeshonBrain::hasIdleActivity).filter(leshon -> !blockOpen || LookTargetUtil.isVisibleInMemory(leshon, player)).forEach(leshon -> {
+            becomeAngryWith(leshon, player);
+        });
+    }
+
+    protected static void becomeAngryWith(LeshonEntity leshonEntity, LivingEntity target) {
+        if (Sensor.testAttackableTargetPredicateIgnoreVisibility(leshonEntity, target)) {
+            leshonEntity.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+            leshonEntity.getBrain().remember(MemoryModuleType.ANGRY_AT, target.getUuid(), 600L);
+        }
+    }
+
+    protected static boolean hasIdleActivity(LeshonEntity leshonEntity) {
+        return leshonEntity.getBrain().hasActivity(Activity.IDLE);
+    }
+
+
     private static Optional<? extends LivingEntity> getAttackTarget(LeshonEntity leshonEntity) {
         Brain<LeshonEntity> brain = leshonEntity.getBrain();
+        Optional<LivingEntity> optional = LookTargetUtil.getEntity(leshonEntity, MemoryModuleType.ANGRY_AT);
+        if(optional.isPresent() && Sensor.testAttackableTargetPredicateIgnoreVisibility(leshonEntity, optional.get())){
+            return optional;
+        }
         if (brain.hasMemoryModule(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER)) {
             return brain.getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
         }
