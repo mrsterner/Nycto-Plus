@@ -2,7 +2,7 @@ package dev.mrsterner.nyctoplus.common.registry;
 
 import dev.mrsterner.nyctoplus.common.block.yew.*;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
-import dev.mrsterner.nyctoplus.mixin.BlocksMixin;
+import dev.mrsterner.nyctoplus.mixin.access.BlocksAccessor;
 import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -40,7 +40,7 @@ public class NPObjects {
     public static final Block YEW_SLAB = register("yew_slab", new SlabBlock(copyOf(Blocks.OAK_SLAB)), true);
     public static final Block YEW_FENCE = register("yew_fence", new FenceBlock(copyOf(Blocks.OAK_FENCE)), true);
     public static final Block YEW_FENCE_GATE = register("yew_fence_gate", new FenceGateBlock(copyOf(Blocks.OAK_FENCE_GATE)), true);
-    public static final Block YEW_LEAVES = register("yew_leaves", BlocksMixin.callCreateLeavesBlock(BlockSoundGroup.GRASS), true);
+    public static final Block YEW_LEAVES = register("yew_leaves", BlocksAccessor.callCreateLeavesBlock(BlockSoundGroup.GRASS), true);
     public static final Block YEW_SAPLING = register("yew_sapling", new YewSaplingBlock(1, "yew_tree", copyOf(Blocks.OAK_SAPLING)), true);
     public static final Block POTTED_YEW_SAPLING = register("potted_yew_sapling", new FlowerPotBlock(YEW_SAPLING, copyOf(Blocks.POTTED_OAK_SAPLING)), false);
     public static final Block YEW_PRESSURE_PLATE = register("yew_pressure_plate", new YewPressurePlateBlock(copyOf(Blocks.OAK_PRESSURE_PLATE)), true);

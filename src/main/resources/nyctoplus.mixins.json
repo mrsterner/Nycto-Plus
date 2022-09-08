@@ -6,7 +6,7 @@
   "mixins": [
     "BlockEntityTypeMixin",
     "BlockMixin",
-    "BlocksMixin",
+    "access.BlocksAccessor",
     "access.SensorTypeAccessor"
   ],
   "client": [

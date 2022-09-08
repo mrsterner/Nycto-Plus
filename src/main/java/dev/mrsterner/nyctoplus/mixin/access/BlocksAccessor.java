@@ -1,4 +1,4 @@
-package dev.mrsterner.nyctoplus.mixin;
+package dev.mrsterner.nyctoplus.mixin.access;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Blocks.class)
-public interface BlocksMixin {
+public interface BlocksAccessor {
     @Invoker
     static LeavesBlock callCreateLeavesBlock(BlockSoundGroup blockSoundGroup) {
         throw new UnsupportedOperationException();

@@ -20,6 +20,7 @@ public class Constants {
     public static class NBT {
 
         public static final String POSE_FLAGS = "pose_flags";
+        public static final String VARIANT = "variant";
     }
 
     public static class DataTrackers {

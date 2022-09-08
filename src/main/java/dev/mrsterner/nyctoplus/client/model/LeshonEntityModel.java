@@ -12,12 +12,16 @@ public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
 
     @Override
     public Identifier getModelResource(LeshonEntity object) {
-        return Constants.id("geo/leshon.geo.json");
+        String s = switch (object.getVariant()){
+            case 10,11 -> "_nether";
+            default -> "";
+        };
+        return Constants.id("geo/leshon"+s+".geo.json");
     }
 
     @Override
     public Identifier getTextureResource(LeshonEntity object) {
-        return Constants.id("textures/entity/leshon/leshon_0.png");
+        return Constants.id("textures/entity/leshon/leshon_"+object.getVariant()+".png");
     }
 
     @Override

@@ -37,6 +37,7 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
      * Pose Flags Indexes: 0 - Quad, 1 - Sleep
      */
     private static final TrackedData<Byte> POSE_FLAGS = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BYTE);
+    public static final TrackedData<Integer> VARIANT = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     private final AnimationFactory factory = new AnimationFactory(this);
     public Vec3d motionCalc = new Vec3d(0,0,0);
@@ -80,6 +81,7 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
     @Override
     protected void initDataTracker() {
         dataTracker.startTracking(POSE_FLAGS, (byte) 0b0000_0000);
+        dataTracker.startTracking(VARIANT, 1);
         super.initDataTracker();
     }
 
@@ -87,12 +89,22 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putByte(Constants.NBT.POSE_FLAGS, dataTracker.get(POSE_FLAGS));
+        nbt.putInt(Constants.NBT.VARIANT, dataTracker.get(VARIANT));
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         dataTracker.set(POSE_FLAGS, nbt.getByte(Constants.NBT.POSE_FLAGS));
+        dataTracker.set(VARIANT, nbt.getInt(Constants.NBT.VARIANT));
+    }
+
+    public int getVariant(){
+        return dataTracker.get(VARIANT);
+    };
+
+    public void setVariant(int variant){
+        this.getDataTracker().set(VARIANT, variant);
     }
 
     @Override
