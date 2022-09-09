@@ -11,21 +11,17 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
 
     @Override
-    public Identifier getModelResource(LeshonEntity object) {
-        String s = switch (object.getVariant()){
-            case 10,11 -> "_nether";
-            default -> "";
-        };
-        return Constants.id("geo/leshon"+s+".geo.json");
+    public Identifier getModelResource(LeshonEntity leshon) {
+        return Constants.id("geo/leshon" + (leshon.getVariant() >= 10 ? "_nether" : "") + ".geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(LeshonEntity object) {
-        return Constants.id("textures/entity/leshon/leshon_"+object.getVariant()+".png");
+    public Identifier getTextureResource(LeshonEntity leshon) {
+        return Constants.id("textures/entity/leshon/leshon_" + leshon.getVariant() + ".png");
     }
 
     @Override
-    public Identifier getAnimationResource(LeshonEntity animatable) {
+    public Identifier getAnimationResource(LeshonEntity leshon) {
         return Constants.id("animations/leshon.animation.json");
     }
 

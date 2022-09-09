@@ -66,6 +66,7 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         LeshonBrain.setCurrentPosAsHome(this);
+        this.setVariant(1);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 

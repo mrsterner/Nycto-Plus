@@ -49,6 +49,11 @@ public class LeshonBrain {
     public LeshonBrain() {
     }
 
+    /**
+     * Initializes the brain when the entity is made.
+     * Activities get re-added to the Brain object each time. This means they can differ per entity instance, if we want them to!
+     * Only one non-core Activity can run at once. When an Activity is run, it cycles through each prioritized Behavior and tries to run them all.
+     */
     public static Brain<?> create(LeshonEntity leshonEntity, Dynamic<?> dynamic) {
         Brain.Profile<LeshonEntity> profile = Brain.createProfile(MEMORIES, SENSORS);
         Brain<LeshonEntity> brain = profile.deserialize(dynamic);
@@ -61,6 +66,9 @@ public class LeshonBrain {
         return brain;
     }
 
+    /**
+     * These activities are always active. So, expect them to run every tick.
+     */
     private static void addCoreActivities(Brain<LeshonEntity> brain) {
         brain.setTaskList(
                 Activity.CORE,
@@ -75,19 +83,21 @@ public class LeshonBrain {
         );
     }
 
+    /**
+     * These will run whenever we don't have something better to do. Essentially walk and swim randomly, or do nothing.
+     */
     private static void addIdleActivities(Brain<LeshonEntity> brain) {
         brain.setTaskList(
                 Activity.IDLE,
                 ImmutableList.of(
-                        Pair.of(0, new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)),
-                        Pair.of(1, new RandomTask<>(
+                        Pair.of(0, new RandomTask<>(
                                 ImmutableList.of(
                                         Pair.of(new StrollTask(0.6F), 2),
                                         Pair.of(new ConditionalTask<>(livingEntity -> true, new GoTowardsLookTarget(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
-                        Pair.of(2, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
-                        Pair.of(3, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
+                        Pair.of(1, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
+                        Pair.of(2, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
 
                 )
         );
@@ -99,7 +109,6 @@ public class LeshonBrain {
                 10,
                 ImmutableList.of(
                         new RangedApproachTask(1.0F),
-                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget),
                         new FollowMobTask(mob -> isTarget(leshonEntity, mob), (float)leshonEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
                         new MeleeAttackTask(18)
                 ),
@@ -107,6 +116,9 @@ public class LeshonBrain {
         );
     }
 
+    /**
+     * This is what lets you switch activities. It should be in reverse order of the importance of the activity.
+     */
     public static void updateActivities(LeshonEntity leshonEntity) {
         leshonEntity.getBrain().resetPossibleActivities(ImmutableList.of(Activity.FIGHT, Activity.IDLE));
         leshonEntity.setAttacking(leshonEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET));
