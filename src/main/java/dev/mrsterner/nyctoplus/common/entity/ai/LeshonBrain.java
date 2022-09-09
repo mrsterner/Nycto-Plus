@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
+import dev.mrsterner.nyctoplus.mixin.BlockMixin;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
@@ -74,11 +75,10 @@ public class LeshonBrain {
                 Activity.CORE,
                 0,
                 ImmutableList.of(
-                        new StayAboveWaterTask(0.6f),
-                        new LookAroundTask(45, 90),
-                        new WanderAroundTask(),
-                        new ForgetAngryAtTargetTask<>(),
-                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)
+                        new StayAboveWaterTask(0.6f), //Make the leshon not sink and die
+                        new LookAroundTask(45, 90), //Look around is nice
+                        new WanderAroundTask(), //Wandering
+                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)//Update targeted entity(player) for the fightingActivities
                 )
         );
     }
@@ -96,7 +96,7 @@ public class LeshonBrain {
                                         Pair.of(new ConditionalTask<>(livingEntity -> true, new GoTowardsLookTarget(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
-                        Pair.of(1, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)),
+                        Pair.of(1, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)), //Won't wander too far
                         Pair.of(2, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
 
                 )
@@ -124,6 +124,9 @@ public class LeshonBrain {
         leshonEntity.setAttacking(leshonEntity.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET));
     }
 
+    /**
+     * Used in {@link BlockMixin} to make the leshon angry
+     */
     public static void onGuardedBlockInteracted(PlayerEntity player, boolean blockOpen) {
         List<LeshonEntity> list = player.world.getNonSpectatingEntities(LeshonEntity.class, player.getBoundingBox().expand(16.0));
         list.stream().filter(leshonEntity -> leshonEntity.getBrain().hasActivity(Activity.IDLE)).filter(leshon -> !blockOpen || LookTargetUtil.isVisibleInMemory(leshon, player)).forEach(leshon -> {
@@ -134,6 +137,11 @@ public class LeshonBrain {
         });
     }
 
+    /**
+     * get target from memory in order of: Angry at > Player > Visible mob
+     * @param leshonEntity the leshon
+     * @return Optional of Living entity
+     */
     private static Optional<? extends LivingEntity> getAttackTarget(LeshonEntity leshonEntity) {
         Brain<LeshonEntity> brain = leshonEntity.getBrain();
         Optional<LivingEntity> optional = LookTargetUtil.getEntity(leshonEntity, MemoryModuleType.ANGRY_AT);
@@ -152,10 +160,20 @@ public class LeshonBrain {
         return Optional.empty();
     }
 
+    /**
+     * Check if an entity is a target
+     * @param leshonEntity the leshon
+     * @param entity the potential target
+     * @return if entity is target
+     */
     private static boolean isTarget(LeshonEntity leshonEntity, LivingEntity entity) {
         return leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).filter(targetedEntity -> targetedEntity == entity).isPresent();
     }
 
+    /**
+     * Sets the Home memory module to wherever the leshon is when the method is run
+     * @param leshonEntity the leshon
+     */
     public static void setCurrentPosAsHome(LeshonEntity leshonEntity) {
         GlobalPos globalPos = GlobalPos.create(leshonEntity.world.getRegistryKey(), leshonEntity.getBlockPos());
         leshonEntity.getBrain().remember(MemoryModuleType.HOME, globalPos);
