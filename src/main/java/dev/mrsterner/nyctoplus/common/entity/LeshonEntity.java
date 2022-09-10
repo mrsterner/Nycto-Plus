@@ -34,7 +34,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class LeshonEntity extends AlmostUnkillableEntity implements IAnimatable {
     /**
-     * Pose Flags Indexes: 0 - Quad, 1 - Sleep, 2 - Dead
+     * Pose Flags Indexes: 0 - Standing, 1 - Quad, 2 - Sleep, 3 - Dead
      */
     private static final TrackedData<Byte> POSE_FLAGS = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BYTE);
     public static final TrackedData<Integer> VARIANT = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -68,6 +68,7 @@ public class LeshonEntity extends AlmostUnkillableEntity implements IAnimatable 
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         LeshonBrain.setCurrentPosAsHome(this);
         this.setVariant(1);
+        this.setReviveCooldown(20 * 30);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -170,20 +171,28 @@ public class LeshonEntity extends AlmostUnkillableEntity implements IAnimatable 
     }
 
     public boolean isLeshonSleeping() {
-        return getPoseFlag(1);
+        return getPoseFlag(2);
     }
 
     public void setLeshonSleeping(boolean sleeping) {
-        setPoseFlag(1, sleeping);
+        setPoseFlag(2, sleeping);
+    }
+
+    public boolean isLeshonStanding() {
+        return getPoseFlag(0);
+    }
+
+    public void setLeshonStandning(boolean standing) {
+        setPoseFlag(0, standing);
     }
 
 
     public boolean isLeshonQuad() {
-        return getPoseFlag(0);
+        return getPoseFlag(1);
     }
 
     public void setLeshonQuad(boolean quadruped) {
-        setPoseFlag(0, quadruped);
+        setPoseFlag(1, quadruped);
     }
 
 

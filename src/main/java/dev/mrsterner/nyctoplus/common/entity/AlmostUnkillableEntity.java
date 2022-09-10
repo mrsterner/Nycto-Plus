@@ -42,16 +42,17 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
 
     @Override
     protected void mobTick() {
-        super.mobTick();
-        if(isKindaDead() && getReviveCooldown() > 0){
-            decreaseReviveCooldown();
-            if(getReviveCooldown() % 20 == 0){
-                this.heal(1);
+        if(isKindaDead()){
+            if(getReviveCooldown() > 0){
+                decreaseReviveCooldown();
+                if(getReviveCooldown() % 20 == 0){
+                    this.heal(1);
+                }
+            }else{
+                setKindaDead(false);
             }
         }
-        if(isKindaDead() && getReviveCooldown() <= 0){
-            setKindaDead(false);
-        }
+        super.mobTick();
     }
 
     public void setReviveCooldown(int value){
@@ -66,10 +67,13 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
         setReviveCooldown(this.getDataTracker().get(REVIVE_COOLDOWN) - 1);
     }
 
+
     @Override
     protected void applyDamage(DamageSource source, float amount) {
         if(amount != 0){
-            if(getLink(this) != null){
+            if(source.getAttacker() == null){
+                super.applyDamage(source, amount);
+            }else if(getLink(this) != null){
                 if(!isKindaDead()){
                     if (this.getHealth() - amount <= 1) {
                         this.setHealth(1);
