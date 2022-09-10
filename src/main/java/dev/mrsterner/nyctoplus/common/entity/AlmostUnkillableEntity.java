@@ -2,14 +2,11 @@ package dev.mrsterner.nyctoplus.common.entity;
 
 import com.mojang.datafixers.util.Pair;
 import dev.mrsterner.nyctoplus.common.block.blockentity.LinkBlockEntity;
-import dev.mrsterner.nyctoplus.common.entity.ai.LeshonBrain;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.common.world.NPWorldState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -17,16 +14,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class AlmostUnkillableEntity extends HostileEntity {
-    /**
-     * Kinda Dead Flags Indexes: 0 - Alive, 1 - Kinda Dead
-     */
-    public static final TrackedData<Byte> KINDA_DEAD = DataTracker.registerData(AlmostUnkillableEntity.class, TrackedDataHandlerRegistry.BYTE);
+    public static final TrackedData<Boolean> KINDA_DEAD = DataTracker.registerData(AlmostUnkillableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final TrackedData<Integer> REVIVE_COOLDOWN = DataTracker.registerData(AlmostUnkillableEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     protected AlmostUnkillableEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -54,6 +45,12 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
         super.mobTick();
         if(isKindaDead() && getReviveCooldown() > 0){
             decreaseReviveCooldown();
+            if(getReviveCooldown() % 20 == 0){
+                this.heal(1);
+            }
+        }
+        if(isKindaDead() && getReviveCooldown() <= 0){
+            setKindaDead(false);
         }
     }
 
@@ -73,7 +70,7 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
     protected void applyDamage(DamageSource source, float amount) {
         if(amount != 0){
             if(getLink(this) != null){
-                if(isKindaAlive()){
+                if(!isKindaDead()){
                     if (this.getHealth() - amount <= 1) {
                         this.setHealth(1);
                         this.setKindaDead(true);
@@ -82,57 +79,34 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
                     }
                 }
             }else{
-                if(isKindaAlive() || isKindaDead()){
-                    super.applyDamage(source, amount);
-                }
+                super.applyDamage(source, amount);
             }
         }
     }
 
     @Override
     protected void initDataTracker() {
-        dataTracker.startTracking(KINDA_DEAD, (byte) 0b0000_0000);
+        dataTracker.startTracking(KINDA_DEAD, false);
         super.initDataTracker();
     }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putByte(Constants.NBT.KINDA_DEAD, dataTracker.get(KINDA_DEAD));
+        nbt.putBoolean(Constants.NBT.KINDA_DEAD, dataTracker.get(KINDA_DEAD));
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        dataTracker.set(KINDA_DEAD, nbt.getByte(Constants.NBT.KINDA_DEAD));
-    }
-
-    protected void setKindaDeadFlag(int index, boolean value) {
-        byte b = this.dataTracker.get(KINDA_DEAD);
-        if (value) {
-            this.dataTracker.set(KINDA_DEAD, (byte) (b | 1 << index));
-        } else {
-            this.dataTracker.set(KINDA_DEAD, (byte) (b & ~(1 << index)));
-        }
-    }
-
-    protected boolean getKindaDeadFlag(int index) {
-        return (this.dataTracker.get(KINDA_DEAD) & 1 << index) != 0;
-    }
-
-    public boolean isKindaAlive() {
-        return getKindaDeadFlag(0);
-    }
-
-    public void setKindaAlive(boolean isAlive) {
-        setKindaDeadFlag(0, isAlive);
+        dataTracker.set(KINDA_DEAD, nbt.getBoolean(Constants.NBT.KINDA_DEAD));
     }
 
     public boolean isKindaDead() {
-        return getKindaDeadFlag(1);
+        return this.getDataTracker().get(KINDA_DEAD);
     }
 
-    public void setKindaDead(boolean isKindaDead) {
-        setKindaDeadFlag(1, isKindaDead);
+    public void setKindaDead(boolean bl) {
+        this.getDataTracker().set(KINDA_DEAD, bl);
     }
 }
