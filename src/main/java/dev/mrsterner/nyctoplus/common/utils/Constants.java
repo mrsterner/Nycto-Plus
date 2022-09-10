@@ -21,6 +21,10 @@ public class Constants {
 
         public static final String POSE_FLAGS = "pose_flags";
         public static final String VARIANT = "variant";
+        public static final String KINDA_DEAD = "kinda_dead";
+        public static final String PLAYER = "player";
+        public static final String POS = "pos";
+        public static final String LINK = "link";
     }
 
     public static class DataTrackers {

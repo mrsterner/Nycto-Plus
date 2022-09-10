@@ -1,6 +1,7 @@
 package dev.mrsterner.nyctoplus.common.registry;
 
 import dev.mrsterner.nyctoplus.common.block.blockentity.ClawedYewBlockEntity;
+import dev.mrsterner.nyctoplus.common.block.blockentity.LinkBlockEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -15,6 +16,8 @@ public class NPBlockEntityTypes {
     private static final Map<BlockEntityType<?>, Identifier> BLOCK_ENTITY_TYPES = new LinkedHashMap<>();
 
    public static final BlockEntityType<ClawedYewBlockEntity> CLAWED_YEW_BLOCK_ENTITY = register("clawed_yew", QuiltBlockEntityTypeBuilder.create(ClawedYewBlockEntity::new, NPObjects.CLAWED_YEW_BLOCK).build(null));
+   public static final BlockEntityType<LinkBlockEntity> LINK_BLOCK_ENTITY = register("link", QuiltBlockEntityTypeBuilder.create(LinkBlockEntity::new, NPObjects.TOTEM_BLOCK).build(null));
+
 
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {

@@ -1,5 +1,6 @@
 package dev.mrsterner.nyctoplus.common.registry;
 
+import dev.mrsterner.nyctoplus.common.block.TotemBlock;
 import dev.mrsterner.nyctoplus.common.block.yew.*;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.mixin.access.BlocksAccessor;
@@ -10,6 +11,7 @@ import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.LinkedHashMap;
@@ -52,6 +54,7 @@ public class NPObjects {
     public static final Item YEW_DOOR_ITEM = register("yew_door", new TallBlockItem(YEW_DOOR, gen()));
     public static final Item YEW_SIGN_ITEM = register("yew_sign", new SignItem(gen().maxCount(16), YEW_SIGN, YEW_WALL_SIGN));
 
+    public static final Block TOTEM_BLOCK = register("totem_block", new TotemBlock(QuiltBlockSettings.copyOf(Blocks.OAK_LOG)), true);
 
 
     private static QuiltItemSettings gen() {

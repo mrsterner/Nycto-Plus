@@ -41,7 +41,7 @@ public class NPWorldGenerators extends ConfiguredFeatureUtil {
     public static void init() {
         BiomeModification worldGen = BiomeModifications.create(Constants.id("world_features"));
         worldGen.add(ModificationPhase.ADDITIONS,
-                BiomeSelectors.isIn(ConventionalBiomeTags.EXTREME_HILLS).or(BiomeSelectors.isIn(ConventionalBiomeTags.MOUNTAIN)),
+                BiomeSelectors.isIn(ConventionalBiomeTags.FOREST).or(BiomeSelectors.isIn(ConventionalBiomeTags.FLOWER_FORESTS)),
                 context -> context.getGenerationSettings().addBuiltInFeature(GenerationStep.Feature.VEGETAL_DECORATION, YEW_TREE_PLACED_FEATURE.value()));
     }
 }

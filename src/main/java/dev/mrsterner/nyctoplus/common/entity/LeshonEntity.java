@@ -32,12 +32,13 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class LeshonEntity extends HostileEntity implements IAnimatable {
+public class LeshonEntity extends AlmostUnkillableEntity implements IAnimatable {
     /**
-     * Pose Flags Indexes: 0 - Quad, 1 - Sleep
+     * Pose Flags Indexes: 0 - Quad, 1 - Sleep, 2 - Dead
      */
     private static final TrackedData<Byte> POSE_FLAGS = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.BYTE);
     public static final TrackedData<Integer> VARIANT = DataTracker.registerData(LeshonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
 
     private final AnimationFactory factory = new AnimationFactory(this);
     public Vec3d motionCalc = new Vec3d(0,0,0);
@@ -77,6 +78,11 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
         this.world.getProfiler().pop();
         LeshonBrain.updateActivities(this);
         super.mobTick();
+    }
+
+    @Override
+    public boolean canTakeDamage() {
+        return super.canTakeDamage();
     }
 
     @Override
@@ -179,6 +185,9 @@ public class LeshonEntity extends HostileEntity implements IAnimatable {
     public void setLeshonQuad(boolean quadruped) {
         setPoseFlag(0, quadruped);
     }
+
+
+
 
 
     private <E extends IAnimatable> PlayState movement(AnimationEvent<E> animationEvent) {
