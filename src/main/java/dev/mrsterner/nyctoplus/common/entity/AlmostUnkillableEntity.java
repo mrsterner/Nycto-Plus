@@ -1,6 +1,7 @@
 package dev.mrsterner.nyctoplus.common.entity;
 
 import com.mojang.datafixers.util.Pair;
+import dev.mrsterner.nyctoplus.NyctoPlus;
 import dev.mrsterner.nyctoplus.common.block.blockentity.LinkBlockEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.common.world.NPWorldState;
@@ -26,15 +27,19 @@ public abstract class AlmostUnkillableEntity extends HostileEntity {
 
     public static Pair<ServerWorld, LinkBlockEntity> getLink(LivingEntity livingEntity) {
         if (livingEntity.world instanceof ServerWorld) {
-            for (ServerWorld serverWorld : livingEntity.world.getServer().getWorlds()) {
-                NPWorldState worldState = NPWorldState.get(serverWorld);
-                if (worldState.link.containsKey(livingEntity.getUuid())) {
-                    BlockEntity entity = serverWorld.getBlockEntity(worldState.link.get(livingEntity.getUuid()));
-                    if (entity instanceof LinkBlockEntity) {
-                        return new Pair<>(serverWorld, (LinkBlockEntity) entity);
+            if (livingEntity.world.getServer() != null) {
+                for (ServerWorld serverWorld : livingEntity.world.getServer().getWorlds()) {
+                    NPWorldState worldState = NPWorldState.get(serverWorld);
+                    if (worldState.link.containsKey(livingEntity.getUuid())) {
+                        BlockEntity entity = serverWorld.getBlockEntity(worldState.link.get(livingEntity.getUuid()));
+                        if (entity instanceof LinkBlockEntity) {
+                            return new Pair<>(serverWorld, (LinkBlockEntity) entity);
+                        }
+                        worldState.removeLink(livingEntity.getUuid());
                     }
-                    worldState.removeLink(livingEntity.getUuid());
                 }
+            }else{
+                NyctoPlus.LOGGER.info("ServerWorld doesn't exist");
             }
         }
         return null;

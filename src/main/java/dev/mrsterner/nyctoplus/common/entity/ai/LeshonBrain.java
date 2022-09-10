@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
+import dev.mrsterner.nyctoplus.common.registry.NPSensorTypes;
 import dev.mrsterner.nyctoplus.mixin.BlockMixin;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,8 +17,11 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.TimeHelper;
 import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +30,12 @@ public class LeshonBrain {
     private static final int HOME_CLOSE_ENOUGH_DISTANCE = 4;
     private static final int HOME_TOO_FAR_DISTANCE = 100;
     private static final int HOME_STROLL_AROUND_DISTANCE = 6;
+    private static final UniformIntProvider AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(5, 20);
     private static final List<SensorType<? extends Sensor<? super LeshonEntity>>> SENSORS =List.of(
             SensorType.NEAREST_PLAYERS,
             SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.HURT_BY);
+            SensorType.HURT_BY,
+            NPSensorTypes.LESHON_SPECIFIC_SENSOR);
     private static final List<MemoryModuleType<?>> MEMORIES = List.of(
             MemoryModuleType.MOBS,
             MemoryModuleType.VISIBLE_MOBS,
@@ -44,7 +50,9 @@ public class LeshonBrain {
             MemoryModuleType.ATTACK_COOLING_DOWN,
             MemoryModuleType.NEAREST_ATTACKABLE,
             MemoryModuleType.HOME,
-            MemoryModuleType.PACIFIED
+            MemoryModuleType.PACIFIED,
+            MemoryModuleType.NEAREST_REPELLENT,
+            MemoryModuleType.AVOID_TARGET
     );
 
     public LeshonBrain() {
@@ -90,14 +98,15 @@ public class LeshonBrain {
         brain.setTaskList(
                 Activity.IDLE,
                 ImmutableList.of(
-                        Pair.of(0, new RandomTask<>(
+                        Pair.of(0 , GoToRememberedPositionTask.toBlock(MemoryModuleType.NEAREST_REPELLENT, 1.0F, 8, true)),
+                        Pair.of(1, new RandomTask<>(
                                 ImmutableList.of(
                                         Pair.of(new StrollTask(0.6F), 2),
                                         Pair.of(new ConditionalTask<>(livingEntity -> true, new GoTowardsLookTarget(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
-                        Pair.of(1, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)), //Won't wander too far
-                        Pair.of(2, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
+                        Pair.of(2, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)), //Won't wander too far
+                        Pair.of(3, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
 
                 )
         );

@@ -15,6 +15,7 @@ public class Constants {
 
     public static class Tags {
         public static final TagKey<Block> GUARDED_BY_LESHON = TagKey.of(Registry.BLOCK_KEY, new Identifier(MODID, "guarded_by_leshon"));
+        public static final TagKey<Block> HOT_BLOCK = TagKey.of(Registry.BLOCK_KEY, new Identifier(MODID, "hot_block"));
     }
 
     public static class NBT {

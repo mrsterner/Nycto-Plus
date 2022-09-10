@@ -20,7 +20,7 @@ public class NyctoPlus implements ModInitializer {
 		NPBlockEntityTypes.init();
 		NPEntityTypes.init();
 		NPWorldGenerators.init();
-
+		NPSensorTypes.init();
 
 	}
 }
