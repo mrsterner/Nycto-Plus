@@ -20,13 +20,15 @@ public class Constants {
 
     public static class NBT {
 
-        public static final String POSE_FLAGS = "pose_flags";
-        public static final String VARIANT = "variant";
-        public static final String KINDA_DEAD = "kinda_dead";
-        public static final String PLAYER = "player";
-        public static final String POS = "pos";
-        public static final String LINK = "link";
-    }
+        public static final String POSE_FLAGS = "PoseFlags";
+        public static final String VARIANT = "Variant";
+        public static final String KINDA_DEAD = "KindaDead";
+        public static final String PLAYER = "Player";
+        public static final String POS = "Pos";
+        public static final String LINK = "Link";
+        public static final String REVIVE_TIMER = "ReviveTimer";
+		public static final String REVIVE_COOLDOWN = "ReviveCooldown";
+	}
 
     public static class DataTrackers {
 
