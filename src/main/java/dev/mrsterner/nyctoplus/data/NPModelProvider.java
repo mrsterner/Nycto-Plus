@@ -2,17 +2,18 @@ package dev.mrsterner.nyctoplus.data;
 
 import dev.mrsterner.nyctoplus.common.registry.NPObjects;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.*;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.model.*;
 
 public class NPModelProvider extends FabricModelProvider {
-    public NPModelProvider(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
-    }
+	public NPModelProvider(FabricDataOutput output) {
+		super(output);
+	}
 
-    @Override
+	@Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
         generator.registerLog(NPObjects.YEW_LOG).log(NPObjects.YEW_LOG).wood(NPObjects.YEW_WOOD);
         generator.registerLog(NPObjects.STRIPPED_YEW_LOG).log(NPObjects.STRIPPED_YEW_LOG).wood(NPObjects.STRIPPED_YEW_WOOD);
@@ -29,8 +30,7 @@ public class NPModelProvider extends FabricModelProvider {
         generator.new BlockTexturePool(TexturedModel.CUBE_ALL.get(NPObjects.YEW_PLANKS).getTexture()).fenceGate(NPObjects.YEW_FENCE_GATE);
 
         registerSlab(generator, NPObjects.YEW_SLAB, NPObjects.YEW_PLANKS);
-
-
+		generator.registerStateWithModelReference(NPObjects.HELLS_GATE_BLOCK, Blocks.AIR);
     }
 
     public static void registerSlab(BlockStateModelGenerator blockStateModelGenerator, Block slab, Block source) {

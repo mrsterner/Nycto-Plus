@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "nyctoplus:yew_log",
+    "nyctoplus:yew_wood",
+    "nyctoplus:yew_leaves",
+    "nyctoplus:clawed_yew_log"
+  ]
+}

@@ -3,14 +3,18 @@ package dev.mrsterner.nyctoplus.client.model;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
+import software.bernie.geckolib.GeckoLib;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 
-public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
+public class LeshonEntityModel extends DefaultedEntityGeoModel<LeshonEntity> {
 
-    @Override
+
+	public LeshonEntityModel() {
+		super(Constants.id("leshon"));
+	}
+
+	@Override
     public Identifier getModelResource(LeshonEntity leshon) {
         return Constants.id("geo/leshon" + (leshon.getVariant() >= 10 ? "_nether" : "") + ".geo.json");
     }
@@ -25,6 +29,7 @@ public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
         return Constants.id("animations/leshon.animation.json");
     }
 
+	/*
     @SuppressWarnings("unchecked")
     @Override
     public void setLivingAnimations(LeshonEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
@@ -36,4 +41,6 @@ public class LeshonEntityModel extends AnimatedGeoModel<LeshonEntity> {
             head.setRotationZ(extraData.netHeadYaw * ((float) Math.PI / 180F));
         }
     }
+
+	 */
 }

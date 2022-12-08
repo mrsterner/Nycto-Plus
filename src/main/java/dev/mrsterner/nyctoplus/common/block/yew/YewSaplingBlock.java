@@ -13,6 +13,7 @@ import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class YewSaplingBlock extends PlantBlock implements Fertilizable {
     public static final IntProperty STAGE = Properties.STAGE;
@@ -52,13 +53,12 @@ public class YewSaplingBlock extends PlantBlock implements Fertilizable {
         WorldGenUtils.generateNbtFeature(Constants.id(nbtLocation + "_" + world.getRandom().nextInt(variants)), world, pos, 1);
     }
 
+	@Override
+	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
+		return true;
+	}
 
-    @Override
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        return true;
-    }
-
-    @Override
+	@Override
     public boolean canGrow(World world, RandomGenerator random, BlockPos pos, BlockState state) {
         return (double)world.random.nextFloat() < 0.45;
     }

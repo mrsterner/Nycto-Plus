@@ -14,7 +14,6 @@ public class NyctoPlus implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		GeckoLibMod.DISABLE_IN_DEV = true;
 		MidnightConfig.init(Constants.MODID, NyctoPlusConfig.class);
 		NPObjects.init();
 		NPBlockEntityTypes.init();

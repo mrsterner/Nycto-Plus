@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(SignBlockEntityRenderer.class)
 @Environment(EnvType.CLIENT)
 public class SignBlockEntityRendererMixin {
+	/*
     @ModifyVariable(method = "render*", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/render/TexturedRenderLayers;getSignTextureId(Lnet/minecraft/util/SignType;)Lnet/minecraft/client/util/SpriteIdentifier;"))
     private SpriteIdentifier getSignTextureId(SpriteIdentifier spriteIdentifier, SignBlockEntity signBlockEntity) {
         if (signBlockEntity.getCachedState().getBlock() instanceof YewSign) {
@@ -21,4 +22,6 @@ public class SignBlockEntityRendererMixin {
         }
         return spriteIdentifier;
     }
+
+	 */
 }

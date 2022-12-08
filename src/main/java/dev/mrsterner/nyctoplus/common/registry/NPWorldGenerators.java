@@ -3,8 +3,9 @@ package dev.mrsterner.nyctoplus.common.registry;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import dev.mrsterner.nyctoplus.common.world.feature.YewTreeFeature;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
-import net.minecraft.util.Holder;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Holder;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.decorator.BiomePlacementModifier;
@@ -20,7 +21,7 @@ import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
 
 
 public class NPWorldGenerators extends ConfiguredFeatureUtil {
-
+/*
     public static final Feature<ProbabilityConfig> YEW_TREE_FEATURE = registerFeature("yew_tree_feature", new YewTreeFeature(ProbabilityConfig.CODEC));
     public static final Holder<ConfiguredFeature<ProbabilityConfig, ?>> YEW_TREE_CONFIGURED_FEATURE = ConfiguredFeatureUtil.register("yew_tree_configured_feature", YEW_TREE_FEATURE, new ProbabilityConfig(0));
 
@@ -33,15 +34,19 @@ public class NPWorldGenerators extends ConfiguredFeatureUtil {
             BiomePlacementModifier.getInstance());
 
     private static <C extends FeatureConfig, F extends Feature<C>> F registerFeature(String name, F feature) {
-        return Registry.register(Registry.FEATURE, name, feature);
+        return Registry.register(Registries.FEATURE, name, feature);
     }
 
 
+ */
 
     public static void init() {
         BiomeModification worldGen = BiomeModifications.create(Constants.id("world_features"));
+		/*
         worldGen.add(ModificationPhase.ADDITIONS,
                 BiomeSelectors.isIn(ConventionalBiomeTags.FOREST).or(BiomeSelectors.isIn(ConventionalBiomeTags.FLOWER_FORESTS)),
                 context -> context.getGenerationSettings().addBuiltInFeature(GenerationStep.Feature.VEGETAL_DECORATION, YEW_TREE_PLACED_FEATURE.value()));
+
+		 */
     }
 }

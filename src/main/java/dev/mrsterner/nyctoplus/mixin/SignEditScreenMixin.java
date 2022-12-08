@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(SignEditScreen.class)
 @Environment(EnvType.CLIENT)
 public class SignEditScreenMixin {
+	/*
     @Shadow
     @Final
     private SignBlockEntity sign;
@@ -27,4 +28,6 @@ public class SignEditScreenMixin {
         }
         return spriteIdentifier;
     }
+
+	 */
 }

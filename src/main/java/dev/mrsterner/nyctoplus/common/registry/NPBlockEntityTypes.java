@@ -1,12 +1,14 @@
 package dev.mrsterner.nyctoplus.common.registry;
 
 import dev.mrsterner.nyctoplus.common.block.blockentity.ClawedYewBlockEntity;
+import dev.mrsterner.nyctoplus.common.block.blockentity.HellsGateBlockEntity;
 import dev.mrsterner.nyctoplus.common.block.blockentity.LinkBlockEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
 import java.util.LinkedHashMap;
@@ -17,6 +19,7 @@ public class NPBlockEntityTypes {
 
    public static final BlockEntityType<ClawedYewBlockEntity> CLAWED_YEW_BLOCK_ENTITY = register("clawed_yew", QuiltBlockEntityTypeBuilder.create(ClawedYewBlockEntity::new, NPObjects.CLAWED_YEW_BLOCK).build(null));
    public static final BlockEntityType<LinkBlockEntity> LINK_BLOCK_ENTITY = register("link", QuiltBlockEntityTypeBuilder.create(LinkBlockEntity::new, NPObjects.TOTEM_BLOCK).build(null));
+   public static final BlockEntityType<HellsGateBlockEntity> HELLS_GATE_BLOCK_ENTITY = register("hells_gate", QuiltBlockEntityTypeBuilder.create(HellsGateBlockEntity::new, NPObjects.HELLS_GATE_BLOCK).build(null));
 
 
 
@@ -28,6 +31,6 @@ public class NPBlockEntityTypes {
 
 
     public static void init() {
-        BLOCK_ENTITY_TYPES.keySet().forEach(blockEntityType -> Registry.register(Registry.BLOCK_ENTITY_TYPE, BLOCK_ENTITY_TYPES.get(blockEntityType), blockEntityType));
+        BLOCK_ENTITY_TYPES.keySet().forEach(blockEntityType -> Registry.register(Registries.BLOCK_ENTITY_TYPE, BLOCK_ENTITY_TYPES.get(blockEntityType), blockEntityType));
     }
 }

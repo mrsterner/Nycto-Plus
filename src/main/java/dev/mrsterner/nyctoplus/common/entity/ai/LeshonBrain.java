@@ -17,8 +17,11 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HoglinBrain;
 import net.minecraft.entity.mob.HoglinEntity;
+import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.unmapped.C_rcqaryar;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -86,7 +89,7 @@ public class LeshonBrain {
                         new StayAboveWaterTask(0.6f), //Make the leshon not sink and die
                         new LookAroundTask(45, 90), //Look around is nice
                         new WanderAroundTask(), //Wandering
-                        new UpdateAttackTargetTask<>(LeshonBrain::getAttackTarget)//Update targeted entity(player) for the fightingActivities
+						UpdateAttackTargetTask.m_cstouyov(LeshonBrain::getAttackTarget)//Update targeted entity(player) for the fightingActivities
                 )
         );
     }
@@ -101,12 +104,12 @@ public class LeshonBrain {
                         Pair.of(0 , GoToRememberedPositionTask.toBlock(MemoryModuleType.NEAREST_REPELLENT, 1.0F, 8, true)),
                         Pair.of(1, new RandomTask<>(
                                 ImmutableList.of(
-                                        Pair.of(new StrollTask(0.6F), 2),
-                                        Pair.of(new ConditionalTask<>(livingEntity -> true, new GoTowardsLookTarget(0.6F, 3)), 2),
+                                        Pair.of(StrollTask.m_wuhievxg(0.6F), 2),
+										Pair.of(C_rcqaryar.m_ipranrme(livingEntity -> true, GoTowardsLookTarget.m_ftybsvym(0.6F, 3)), 2),
                                         Pair.of(new WaitTask(30, 60), 1)
                                 ))),
-                        Pair.of(2, new GoToNearbyPositionTask(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)), //Won't wander too far
-                        Pair.of(3, new GoToIfNearbyTask(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
+                        Pair.of(2, GoToNearbyPositionTask.m_ivikwldh(MemoryModuleType.HOME, 0.6f, HOME_CLOSE_ENOUGH_DISTANCE, HOME_TOO_FAR_DISTANCE)), //Won't wander too far
+                        Pair.of(3, GoToIfNearbyTask.m_alpmpfvp(MemoryModuleType.HOME, 0.6f, HOME_STROLL_AROUND_DISTANCE))
 
                 )
         );
@@ -117,9 +120,9 @@ public class LeshonBrain {
                 Activity.FIGHT,
                 10,
                 ImmutableList.of(
-                        new RangedApproachTask(1.0F),
-                        new FollowMobTask(mob -> isTarget(leshonEntity, mob), (float)leshonEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
-                        new MeleeAttackTask(18)
+                        RangedApproachTask.m_lybdhlji(1.0F),
+                        FollowMobTask.m_xtjussog(mob -> isTarget(leshonEntity, mob), (float)leshonEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)),
+                        MeleeAttackTask.m_bsseqsar(18)
                 ),
                 MemoryModuleType.ATTACK_TARGET
         );
@@ -163,7 +166,7 @@ public class LeshonBrain {
         if (brain.hasMemoryModule(MemoryModuleType.VISIBLE_MOBS)) {
             Optional<VisibleLivingEntitiesCache> visibleLivingEntitiesCache = leshonEntity.getBrain().getOptionalMemory(MemoryModuleType.VISIBLE_MOBS);
             if(visibleLivingEntitiesCache.isPresent()){
-                return visibleLivingEntitiesCache.get().method_38975(entity -> entity.getType() == EntityType.PLAYER && !entity.isSubmergedInWater());
+                return visibleLivingEntitiesCache.get().m_yzezovsk(entity -> entity.getType() == EntityType.PLAYER && !entity.isSubmergedInWater());
             }
         }
         return Optional.empty();
