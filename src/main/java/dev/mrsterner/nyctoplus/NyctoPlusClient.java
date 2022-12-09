@@ -1,6 +1,7 @@
 package dev.mrsterner.nyctoplus;
 
 import dev.mrsterner.nyctoplus.client.model.DemonHornsModel;
+import dev.mrsterner.nyctoplus.client.registry.NPShaders;
 import dev.mrsterner.nyctoplus.client.registry.NPSpriteIdentifierRegistry;
 import dev.mrsterner.nyctoplus.client.renderer.LeshonEntityRenderer;
 import dev.mrsterner.nyctoplus.client.renderer.blockentity.HellsGateBlockEntityRenderer;
@@ -34,6 +35,7 @@ public class NyctoPlusClient implements ClientModInitializer {
 		BlockEntityRendererRegistry.register(NPBlockEntityTypes.HELLS_GATE_BLOCK_ENTITY, HellsGateBlockEntityRenderer::new);
 
 		ClientTickEvents.END.register(ClientTickHandler::clientTickEnd);
+
 	}
 
 	public static final class ClientTickHandler {

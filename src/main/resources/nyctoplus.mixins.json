@@ -10,6 +10,7 @@
     "access.SensorTypeAccessor"
   ],
   "client": [
+    "GameRendererMixin",
     "PlayerEntityRendererMixin",
     "SignBlockEntityRendererMixin",
     "SignEditScreenMixin",

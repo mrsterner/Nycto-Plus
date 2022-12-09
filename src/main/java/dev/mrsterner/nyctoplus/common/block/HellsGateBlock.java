@@ -12,7 +12,7 @@ public class HellsGateBlock extends Block implements BlockEntityProvider {
 	protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
 
 	public HellsGateBlock(Settings settings) {
-		super(settings);
+		super(settings.nonOpaque());
 	}
 
 	@Nullable
