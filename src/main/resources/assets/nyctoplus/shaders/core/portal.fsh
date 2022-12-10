@@ -68,11 +68,11 @@ void main() {
     if (texture(Sampler0, texCoord0).a < 0.5) {
         discard;
     } else {
-        //vec3 color = texture(Sampler0, texProj0.xy).rgb * COLORS[0];
-        vec3 color = textureProj(Sampler0, texProj0).rgb * COLORS[0];
+        vec3 color = texture(Sampler0, texProj0.xy).rgb * COLORS[0];
+        //vec3 color = textureProj(Sampler0, texProj0).rgb * COLORS[0];
         for (int i = 0; i < EndPortalLayers; i++) {
-            color += textureProj(Sampler1, texProj0 * end_portal_layer(float(i + 1))).rgb * COLORS[i];
-            //color += texture(Sampler1, (vec4(texProj0.xy,0,1) * end_portal_layer(float(i + 1))).xy).rgb * COLORS[i];
+            //color += textureProj(Sampler1, texProj0 * end_portal_layer(float(i + 1))).rgb * COLORS[i];
+            color += texture(Sampler1, (vec4(texProj0.xy,0,1) * end_portal_layer(float(i + 1))).xy).rgb * COLORS[i];
         }
         fragColor = vec4(color, 1.0) * vertexColor;
     }

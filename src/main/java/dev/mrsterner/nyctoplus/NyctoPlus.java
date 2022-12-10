@@ -1,8 +1,6 @@
 package dev.mrsterner.nyctoplus;
 
 import dev.mrsterner.nyctoplus.common.registry.*;
-import dev.mrsterner.nyctoplus.common.utils.Constants;
-import eu.midnightdust.lib.config.MidnightConfig;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ public class NyctoPlus implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		MidnightConfig.init(Constants.MODID, NyctoPlusConfig.class);
 		NPObjects.init();
 		NPBlockEntityTypes.init();
 		NPEntityTypes.init();

@@ -36,7 +36,7 @@ dependencies {
 	modImplementation "software.bernie.geckolib:geckolib-quilt-1.19.3:${project.geckolib}"
 
 	//MidnightLib
-	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
+	//modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
 
 	//SatinAPI
 	modImplementation "io.github.ladysnake:satin:${project.satin_version}"
