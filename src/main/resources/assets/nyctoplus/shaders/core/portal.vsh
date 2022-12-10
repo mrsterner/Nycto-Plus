@@ -18,7 +18,7 @@ out vec4 vertexColor;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    vec4 pos = ProjMat * ModelViewMat * vec4(Position * 100, 1.0);
+    vec4 pos = ProjMat * ModelViewMat * vec4(Position, 1.0);
     texProj0 = projection_from_position(pos);
     //texProj0 = vec4(UV0, UV0);//projection_from_position(gl_Position);
     texCoord0  = UV0;

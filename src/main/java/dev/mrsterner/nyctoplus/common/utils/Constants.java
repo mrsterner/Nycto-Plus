@@ -36,7 +36,8 @@ public class Constants {
         public static final String LINK = "Link";
         public static final String REVIVE_TIMER = "ReviveTimer";
 		public static final String REVIVE_COOLDOWN = "ReviveCooldown";
-	}
+        public static final String AGE = "Age";
+    }
 
     public static class DataTrackers {
 

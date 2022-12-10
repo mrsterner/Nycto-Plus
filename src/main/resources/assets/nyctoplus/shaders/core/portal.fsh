@@ -30,6 +30,14 @@ vec3(0.8, 0.8, 0.8),
 vec3(0.9, 0.9, 0.9),
 vec3(1.0, 1.0, 1.0)
 );
+/*
+const mat4 SCALE_TRANSLATE = mat4(
+0.10, 0.0, 0.0, 0.05,
+0.0, 0.10, 0.0, 0.05,
+0.0, 0.0, 0.20, 0.0,
+0.0, 0.0, 0.0, 0.20
+);
+*/
 
 const mat4 SCALE_TRANSLATE = mat4(
 0.5, 0.0, 0.0, 0.25,
@@ -37,6 +45,7 @@ const mat4 SCALE_TRANSLATE = mat4(
 0.0, 0.0, 1.0, 0.0,
 0.0, 0.0, 0.0, 1.0
 );
+
 
 mat4 end_portal_layer(float layer) {
     mat4 translate = mat4(

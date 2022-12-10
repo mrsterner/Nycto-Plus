@@ -30,7 +30,6 @@ public class NPModelProvider extends FabricModelProvider {
         generator.new BlockTexturePool(TexturedModel.CUBE_ALL.get(NPObjects.YEW_PLANKS).getTexture()).fenceGate(NPObjects.YEW_FENCE_GATE);
 
         registerSlab(generator, NPObjects.YEW_SLAB, NPObjects.YEW_PLANKS);
-		generator.registerStateWithModelReference(NPObjects.HELLS_GATE_BLOCK, Blocks.AIR);
     }
 
     public static void registerSlab(BlockStateModelGenerator blockStateModelGenerator, Block slab, Block source) {

@@ -1,8 +1,7 @@
-// 1.19.3	2022-12-08T21:22:18.414549668	Nycto Plus/Model Definitions
+// 1.19.3	2022-12-10T00:30:39.934344738	Nycto Plus/Model Definitions
 b4256b8a2bd3b2fa0c911d70b1ca211f14a048fd assets/nyctoplus/models/block/yew_pressure_plate.json
 b3e3cb0afd27aa8bb9e0270fe839ff453748aa7e assets/nyctoplus/models/block/yew_button_pressed.json
 5d1c9fd3f58844be56dc6100d6333b702c54143e assets/nyctoplus/blockstates/stripped_yew_wood.json
-3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/nyctoplus/blockstates/hells_gate.json
 18504f81ff11e4046c6ed3d371ec4f15a2305587 assets/nyctoplus/models/block/stripped_yew_log_horizontal.json
 3d23f0a60e994f583c7e22c86d1d53ee21a66c60 assets/nyctoplus/models/block/yew_door_top_left.json
 74f191bc6246632badfe8f036e87613c5d35f1ae assets/nyctoplus/models/item/yew_leaves.json
@@ -41,7 +40,6 @@ c6b7643ffe7c88402c94f062af04cbd93a63c70d assets/nyctoplus/models/block/stripped_
 ba4e4c81a8a3ecb229295b104a1cb2a5212c4a18 assets/nyctoplus/blockstates/yew_log.json
 7cf7f6abfc64fe8ddf0030bdc143022be13c2194 assets/nyctoplus/models/block/yew_fence_side.json
 51a4ffd7b3b446c76c1b8fefc3c78c92affd4e49 assets/nyctoplus/models/block/yew_slab_top.json
-5cd82ede9c96f984782ea1171744ea1f180b3d53 assets/nyctoplus/models/item/hells_gate.json
 bd610712bc7fb4b3142ce6a8fac983601abc3a57 assets/nyctoplus/models/item/yew_stairs.json
 fd4e98a507c82ae365aad54a3630fc6e44b54133 assets/nyctoplus/models/block/yew_door_bottom_right_open.json
 fabb4197689a2816763e8e183792dfa1e5b1efb0 assets/nyctoplus/models/block/potted_yew_sapling.json
