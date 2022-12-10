@@ -2,7 +2,6 @@ package dev.mrsterner.nyctoplus.data;
 
 import dev.mrsterner.nyctoplus.common.registry.NPObjects;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;

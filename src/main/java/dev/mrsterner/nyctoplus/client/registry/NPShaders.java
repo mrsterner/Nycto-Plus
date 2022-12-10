@@ -7,7 +7,6 @@ import dev.mrsterner.nyctoplus.client.shader.ShaderInstance;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.client.render.ShaderProgram;
 import net.minecraft.resource.ResourceFactory;
-import net.minecraft.resource.ResourceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

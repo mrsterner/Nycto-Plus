@@ -3,14 +3,12 @@ package dev.mrsterner.nyctoplus.common.registry;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;

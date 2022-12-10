@@ -3,7 +3,6 @@ package dev.mrsterner.nyctoplus.common.block.yew;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AbstractButtonBlock;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;

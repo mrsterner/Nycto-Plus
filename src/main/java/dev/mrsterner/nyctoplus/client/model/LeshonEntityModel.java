@@ -3,9 +3,7 @@ package dev.mrsterner.nyctoplus.client.model;
 import dev.mrsterner.nyctoplus.common.entity.LeshonEntity;
 import dev.mrsterner.nyctoplus.common.utils.Constants;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.data.EntityModelData;
 
 public class LeshonEntityModel extends DefaultedEntityGeoModel<LeshonEntity> {
 

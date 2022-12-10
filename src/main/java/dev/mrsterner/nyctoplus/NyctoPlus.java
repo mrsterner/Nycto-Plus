@@ -7,7 +7,6 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.bernie.example.GeckoLibMod;
 
 public class NyctoPlus implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("NyctoPlus");

@@ -1,7 +1,6 @@
 package dev.mrsterner.nyctoplus;
 
 import dev.mrsterner.nyctoplus.client.model.DemonHornsModel;
-import dev.mrsterner.nyctoplus.client.registry.NPShaders;
 import dev.mrsterner.nyctoplus.client.registry.NPSpriteIdentifierRegistry;
 import dev.mrsterner.nyctoplus.client.renderer.LeshonEntityRenderer;
 import dev.mrsterner.nyctoplus.client.renderer.blockentity.HellsGateBlockEntityRenderer;
@@ -15,7 +14,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
 import net.minecraft.client.util.SpriteIdentifier;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;

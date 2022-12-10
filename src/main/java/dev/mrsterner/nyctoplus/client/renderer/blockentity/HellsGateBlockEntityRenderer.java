@@ -3,13 +3,11 @@ package dev.mrsterner.nyctoplus.client.renderer.blockentity;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.mrsterner.nyctoplus.client.registry.NPRenderLayers;
 import dev.mrsterner.nyctoplus.common.block.blockentity.HellsGateBlockEntity;
-import dev.mrsterner.nyctoplus.common.utils.Quint;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
 import oshi.util.tuples.Pair;
 
@@ -21,7 +19,7 @@ public class HellsGateBlockEntityRenderer<T extends HellsGateBlockEntity> implem
 
 
 	public HellsGateBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-		points.add(new Pair<>(3.0F, 0.125F));//
+		points.add(new Pair<>(3.0F, 0.125F));
 		points.add(new Pair<>(2.5F, 0.6F));
 		points.add(new Pair<>(2.75F, 1.0F));
 		points.add(new Pair<>(3.5F, 0.75F));
@@ -67,27 +65,14 @@ public class HellsGateBlockEntityRenderer<T extends HellsGateBlockEntity> implem
 	private void renderVertices(HellsGateBlockEntity endPortalBlockEntity, float tickDelta, Matrix4f matrix4f, VertexConsumer vertexConsumer,  int light, int overlay, boolean outer) {
 		float[] rgba = {1F, 0.2F, 0.2F, outer ? 0.75f : 1.0f};
 		for(Pair<Float, Float> pair : points){
-			int i = points.indexOf(pair);
-			int u,v;
-			if(i % 4 == 0){
-				u = 0;v = 0;
-			}else if(i % 3 == 0){
-				u = 1;v = 0;
-			} else if(i % 2 == 0){
-				u = 1;v = 1;
-			} else {
-				u = 0;v = 1;
-			}
-
 			float g = ((float)endPortalBlockEntity.age + tickDelta - 1.0F) / 20.0F * 1.6F;
 			if (g >= 1.0F) {
 				g = 1.0F;
 			}else{
 				g = QuadEaseInOut(g);
 			}
-
 			float swiftyX = (pair.getA() * g) - 3 * g;
-			vertexConsumer.m_rkxaaknb(matrix4f,  swiftyX, outer ? 0.01F : 0.001F, pair.getB()).color(rgba[0], rgba[1], rgba[2], rgba[3]).uv(u, v).light(light).overlay(overlay).normal(0, 1, 0).next();
+			vertexConsumer.m_rkxaaknb(matrix4f,  swiftyX, outer ? 0.01F : 0.001F, pair.getB()).color(rgba[0], rgba[1], rgba[2], rgba[3]).uv(0, 1).light(light).overlay(overlay).normal(0, 1, 0).next();
 		}
 	}
 }
