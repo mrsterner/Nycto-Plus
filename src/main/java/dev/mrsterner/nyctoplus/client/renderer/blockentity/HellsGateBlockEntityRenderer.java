@@ -78,6 +78,7 @@ public class HellsGateBlockEntityRenderer<T extends HellsGateBlockEntity> implem
 			float swiftyX = (pair.getA() * g) - 3 * g;
 			vertexConsumer.m_rkxaaknb(matrix4f,  swiftyX,  0.001F, pair.getB()).color(rgba[0], rgba[1], rgba[2], rgba[3]).uv(0, 1).light(light).overlay(overlay).normal(0, 1, 0).next();
 		}
+		/*
 		for(Triplet<Float, Float, Boolean> pair : points){
 			float swiftyX = (pair.getA() * g) - 3 * g;
 
@@ -93,5 +94,7 @@ public class HellsGateBlockEntityRenderer<T extends HellsGateBlockEntity> implem
 				}
 			}
 		}
+
+		 */
 	}
 }

@@ -29,6 +29,8 @@ public class NyctoPlusClient implements ClientModInitializer {
 		EntityRendererRegistry.register(NPEntityTypes.LESHON, LeshonEntityRenderer::new);
 
 		EntityModelLayerRegistry.registerModelLayer(DemonHornsModel.LAYER_LOCATION, DemonHornsModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(DemonHornsModel.LAYER_LOCATION_2, DemonHornsModel::getTexturedModelData2);
+		EntityModelLayerRegistry.registerModelLayer(DemonHornsModel.LAYER_LOCATION_3, DemonHornsModel::getTexturedModelData3);
 
 		BlockEntityRendererRegistry.register(NPBlockEntityTypes.HELLS_GATE_BLOCK_ENTITY, HellsGateBlockEntityRenderer::new);
 

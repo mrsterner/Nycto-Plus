@@ -19,7 +19,7 @@ public class DemonHornsFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
 	public DemonHornsFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context, EntityModelLoader loader) {
 		super(context);
-		MODEL = new DemonHornsModel(loader.getModelPart(DemonHornsModel.LAYER_LOCATION));
+		MODEL = new DemonHornsModel(loader.getModelPart(DemonHornsModel.LAYER_LOCATION_3));
 	}
 
 	@Override
